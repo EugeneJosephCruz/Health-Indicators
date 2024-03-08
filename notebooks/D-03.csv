@@ -1,0 +1,67 @@
+Title,Code,"Demographic Group",Population,Period,Estimate,Unit,"Lower CI","Upper CI",SE,Locality,"Disparity Group Rank","Disparity Rate Ratio","Disparity Lower CI","Disparity Upper CI","Disparity SE"
+"Reduce the proportion of adults with diabetes who have an A1c value above 9 percent - D-03",D-03,"Total * ^",Total,2013-16,18.7,percent,16.1,21.6,2.091,"United States"
+"Reduce the proportion of adults with diabetes who have an A1c value above 9 percent - D-03",D-03,"Sex * ^",Male,2013-16,20.0,percent,15.8,24.8,3.567,"United States",2,1.151,1,1.682,0.231
+"Reduce the proportion of adults with diabetes who have an A1c value above 9 percent - D-03",D-03,"Sex * ^",Female,2013-16,17.4,percent,14.0,21.2,2.553,"United States",1,1,1,1.406,0.207
+"Reduce the proportion of adults with diabetes who have an A1c value above 9 percent - D-03",D-03,"Race/Ethnicity * ^","American Indian or Alaska Native only",2013-16,DSU,percent,,,,"United States"
+"Reduce the proportion of adults with diabetes who have an A1c value above 9 percent - D-03",D-03,"Race/Ethnicity * ^","Asian only",2013-16,DSU,percent,,,,"United States"
+"Reduce the proportion of adults with diabetes who have an A1c value above 9 percent - D-03",D-03,"Race/Ethnicity * ^","Native Hawaiian or Other Pacific Islander only",2013-16,DSU,percent,,,,"United States"
+"Reduce the proportion of adults with diabetes who have an A1c value above 9 percent - D-03",D-03,"Race/Ethnicity * ^","Black or African American only",2013-16,DNA,percent,,,,"United States"
+"Reduce the proportion of adults with diabetes who have an A1c value above 9 percent - D-03",D-03,"Race/Ethnicity * ^","White only",2013-16,DNA,percent,,,,"United States"
+"Reduce the proportion of adults with diabetes who have an A1c value above 9 percent - D-03",D-03,"Race/Ethnicity * ^","2 or more races",2013-16,DSU,percent,,,,"United States"
+"Reduce the proportion of adults with diabetes who have an A1c value above 9 percent - D-03",D-03,"Race/Ethnicity * ^","Hispanic or Latino",2013-16,28.3,percent,22.9,34.2,4.098,"United States",4,2.578,1,3.902,5.929
+"Reduce the proportion of adults with diabetes who have an A1c value above 9 percent - D-03",D-03,"Race/Ethnicity * ^","Hispanic or Latino: Mexican American",2013-16,29.1,percent,21.8,37.3,5.176,"United States"
+"Reduce the proportion of adults with diabetes who have an A1c value above 9 percent - D-03",D-03,"Race/Ethnicity * ^","Not Hispanic or Latino",2013-16,DNA,percent,,,,"United States"
+"Reduce the proportion of adults with diabetes who have an A1c value above 9 percent - D-03",D-03,"Race/Ethnicity * ^","Not Hispanic or Latino: American Indian or Alaska Native only",2013-16,DSU,percent,,,,"United States"
+"Reduce the proportion of adults with diabetes who have an A1c value above 9 percent - D-03",D-03,"Race/Ethnicity * ^","Not Hispanic or Latino: Asian only",2013-16,11.0,percent,5.8,18.6,4.216,"United States",2,1.005,1,2.053,0.355
+"Reduce the proportion of adults with diabetes who have an A1c value above 9 percent - D-03",D-03,"Race/Ethnicity * ^","Not Hispanic or Latino: Native Hawaiian or Other Pacific Islander only",2013-16,DSU,percent,,,,"United States"
+"Reduce the proportion of adults with diabetes who have an A1c value above 9 percent - D-03",D-03,"Race/Ethnicity * ^","Not Hispanic or Latino: Black or African American only",2013-16,24.3,percent,19.2,30.0,3.805,"United States",3,2.216,1,3.392,5.4
+"Reduce the proportion of adults with diabetes who have an A1c value above 9 percent - D-03",D-03,"Race/Ethnicity * ^","Not Hispanic or Latino: White only",2013-16,11.0,percent,8.3,14.2,2.263,"United States",1,1,1,1.615,2.284
+"Reduce the proportion of adults with diabetes who have an A1c value above 9 percent - D-03",D-03,"Race/Ethnicity * ^","Not Hispanic or Latino: 2 or more races",2013-16,DSU,percent,,,,"United States"
+"Reduce the proportion of adults with diabetes who have an A1c value above 9 percent - D-03",D-03,"Age group + ^","18-44 years",2013-16,20.8,percent,14.0,29.1,3.523,"United States",3,2.789,1,4.119,0.726
+"Reduce the proportion of adults with diabetes who have an A1c value above 9 percent - D-03",D-03,"Age group + ^","18-44 years: 18-24 years",2013-16,DSU,percent,,,,"United States"
+"Reduce the proportion of adults with diabetes who have an A1c value above 9 percent - D-03",D-03,"Age group + ^","18-44 years: 25-44 years",2013-16,20.5,percent,13.8,28.6,3.452,"United States"
+"Reduce the proportion of adults with diabetes who have an A1c value above 9 percent - D-03",D-03,"Age group + ^","45-64 years",2013-16,18.7,percent,14.6,23.3,2.062,"United States",2,2.506,1,3.477,0.553
+"Reduce the proportion of adults with diabetes who have an A1c value above 9 percent - D-03",D-03,"Age group + ^","45-64 years: 45-54 years",2013-16,23.1,percent,16.2,31.3,3.542,"United States"
+"Reduce the proportion of adults with diabetes who have an A1c value above 9 percent - D-03",D-03,"Age group + ^","45-64 years: 55-64 years",2013-16,16.0,percent,10.9,22.2,2.667,"United States"
+"Reduce the proportion of adults with diabetes who have an A1c value above 9 percent - D-03",D-03,"Age group + ^","65 years and over",2013-16,7.5,percent,5.1,10.4,1.236,"United States",1,1,1,1.471,0
+"Reduce the proportion of adults with diabetes who have an A1c value above 9 percent - D-03",D-03,"Age group + ^","65 years and over: 65-74 years",2013-16,8.3,percent,5.5,12.0,1.527,"United States"
+"Reduce the proportion of adults with diabetes who have an A1c value above 9 percent - D-03",D-03,"Age group + ^","65 years and over: 75-79 years",2013-16,DSU,percent,,,,"United States"
+"Reduce the proportion of adults with diabetes who have an A1c value above 9 percent - D-03",D-03,"Age group + ^","65 years and over: 80 years and over",2013-16,DSU,percent,,,,"United States"
+"Reduce the proportion of adults with diabetes who have an A1c value above 9 percent - D-03",D-03,"Educational attainment (25 years and over) * ^","Less than High school",2013-16,21.3,percent,17.2,25.9,3.606,"United States",3,1.475,1,2.23,0.488
+"Reduce the proportion of adults with diabetes who have an A1c value above 9 percent - D-03",D-03,"Educational attainment (25 years and over) * ^","High school (including GED or equivalent)",2013-16,22.3,percent,18.0,27.2,3.118,"United States",4,1.544,1,2.264,0.477
+"Reduce the proportion of adults with diabetes who have an A1c value above 9 percent - D-03",D-03,"Educational attainment (25 years and over) * ^","Some college or Associate degree",2013-16,14.5,percent,10.5,19.3,2.688,"United States",1,1,1,1.541,0.231
+"Reduce the proportion of adults with diabetes who have an A1c value above 9 percent - D-03",D-03,"Educational attainment (25 years and over) * ^","4-year college degree or more",2013-16,18.1,percent,12.6,24.8,4.419,"United States",2,1.252,1,2.074,0.37
+"Reduce the proportion of adults with diabetes who have an A1c value above 9 percent - D-03",D-03,"Family income (percent poverty guidelines) * ^","less than 100",2013-16,27.2,percent,21.6,33.4,4.152,"United States",4,1.899,1,3.175,3.39
+"Reduce the proportion of adults with diabetes who have an A1c value above 9 percent - D-03",D-03,"Family income (percent poverty guidelines) * ^",100-199,2013-16,19.0,percent,15.1,23.5,3.452,"United States",3,1.327,1,2.275,2.207
+"Reduce the proportion of adults with diabetes who have an A1c value above 9 percent - D-03",D-03,"Family income (percent poverty guidelines) * ^",200-399,2013-16,17.4,percent,13.2,22.2,3.123,"United States",2,1.212,1,2.075,2.408
+"Reduce the proportion of adults with diabetes who have an A1c value above 9 percent - D-03",D-03,"Family income (percent poverty guidelines) * ^","400 plus",2013-16,14.3,percent,9.5,20.4,3.909,"United States",1,1,1,1.887,0.178
+"Reduce the proportion of adults with diabetes who have an A1c value above 9 percent - D-03",D-03,"Health insurance status (18-64 years) * ^",Insured,2013-16,17.3,percent,14.3,20.7,2.145,"United States"
+"Reduce the proportion of adults with diabetes who have an A1c value above 9 percent - D-03",D-03,"Health insurance status (18-64 years) * ^","Insured: Private",2013-16,18.7,percent,14.2,23.9,3.087,"United States",2,1.286,1,2.012,0.405
+"Reduce the proportion of adults with diabetes who have an A1c value above 9 percent - D-03",D-03,"Health insurance status (18-64 years) * ^","Insured: Public",2013-16,14.5,percent,10.5,19.4,3.146,"United States",1,1,1,1.655,0.097
+"Reduce the proportion of adults with diabetes who have an A1c value above 9 percent - D-03",D-03,"Health insurance status (18-64 years) * ^",Uninsured,2013-16,35.3,percent,24.8,47.0,5.942,"United States",3,2.431,1,3.816,0.81
+"Reduce the proportion of adults with diabetes who have an A1c value above 9 percent - D-03",D-03,"Geographic location * ^","Geographic location",2013-16,DNC,percent,,,,"United States"
+"Reduce the proportion of adults with diabetes who have an A1c value above 9 percent - D-03",D-03,"Marital status (20 years and over) * ^","Married/Cohabiting partner",2013-16,18.0,percent,14.7,21.7,2.539,"United States",2,1.091,1,1.778,2.824
+"Reduce the proportion of adults with diabetes who have an A1c value above 9 percent - D-03",D-03,"Marital status (20 years and over) * ^","Divorced, separated, widowed",2013-16,22.6,percent,18.7,27.0,4.225,"United States",3,1.372,1,2.326,3.037
+"Reduce the proportion of adults with diabetes who have an A1c value above 9 percent - D-03",D-03,"Marital status (20 years and over) * ^","Never married",2013-16,16.5,percent,9.3,26.1,4.315,"United States",1,1,1,1.837,0.175
+"Reduce the proportion of adults with diabetes who have an A1c value above 9 percent - D-03",D-03,"Country of birth * ^",US,2013-16,18.7,percent,15.9,21.6,2.172,"United States",1,1,1,1.311,0.165
+"Reduce the proportion of adults with diabetes who have an A1c value above 9 percent - D-03",D-03,"Country of birth * ^","Outside US",2013-16,19.1,percent,14.8,24.0,3.382,"United States",2,1.022,1,1.449,0.212
+"Reduce the proportion of adults with diabetes who have an A1c value above 9 percent - D-03",D-03,"Veteran status (20 years and over) * ^",Veteran,2013-16,19.0,percent,12.3,27.3,7.901,"United States",2,1.022,1,2.079,0.432
+"Reduce the proportion of adults with diabetes who have an A1c value above 9 percent - D-03",D-03,"Veteran status (20 years and over) * ^",Non-veteran,2013-16,18.6,percent,15.8,21.6,2.095,"United States",1,1,1,1.3,0.16
+"Reduce the proportion of adults with diabetes who have an A1c value above 9 percent - D-03",D-03,"Activity limitation (20 years and over) * ^","With activity limitations",2013-16,14.0,percent,11.3,17.1,2.706,"United States",1,1,1,1.568,0.273
+"Reduce the proportion of adults with diabetes who have an A1c value above 9 percent - D-03",D-03,"Activity limitation (20 years and over) * ^","Without activity limitations",2013-16,20.5,percent,16.8,24.6,2.553,"United States",2,1.466,1,2.14,0.23
+"Reduce the proportion of adults with diabetes who have an A1c value above 9 percent - D-03",D-03,"Sexual orientation (18 years and over) * ^","Sexual orientation (18 years and over)",2013-16,DSU,percent,,,,"United States"
+"Reduce the proportion of adults with diabetes who have an A1c value above 9 percent - D-03",D-03,"Gender identity (18 years and over) * ^","Gender identity (18 years and over)",2013-16,DNC,percent,,,,"United States"
+"Reduce the proportion of adults with diabetes who have an A1c value above 9 percent - D-03",D-03,"Obesity status (20 years and over) * ^",Obese,2013-16,19.3,percent,16.3,22.6,2.152,"United States",2,1.105,1,1.726,0.271
+"Reduce the proportion of adults with diabetes who have an A1c value above 9 percent - D-03",D-03,"Obesity status (20 years and over) * ^","Not obese",2013-16,17.5,percent,12.8,23.1,4.324,"United States",1,1,1,1.777,0.35
+
+Footnotes
+"+: Target is not applicable for this demographic group."
+"*: Age adjusted to the year 2000 standard population."
+"^: Unless otherwise noted, data represent ""percent, 18+ years"""
+"DSU: Data do not meet the criteria for statistical reliability, data quality, or confidentiality."
+"DNA: Data have not been analyzed."
+"DNC: Data for specific population not collected."
+"--- : Data are not available."
+
+"Data Source"
+"National Health and Nutrition Examination Survey (NHANES)"
