@@ -1,5 +1,4 @@
 import streamlit as st
-from joblib import load
 import pandas as pd
 import numpy as np
 import datetime
@@ -100,12 +99,27 @@ def main():
     if st.button('Submit'):
         # Convert responses to DataFrame for model prediction
         input_df = pd.DataFrame([user_responses])
+    
+
+        try: 
+            response_model = requests.post("http://localhost:5000/predict", json=input_df)
+            if response.status_code == 200:
+                print(response_model)
+                
+                # Make prediction 
+                prediction = response_model.data.model_response
+
+                
+                 # Display the prediction result
+                display_prediction_result(prediction)
+
+            else:
+                st.error("Model error.")
         
-        # Make prediction
-        prediction = model.predict(input_df)[0]
-        
-        # Display the prediction result
-        display_prediction_result(prediction)
+        except requests.exceptions.RequestException as e:
+            st.error(f'Request failed: {e}')
+
+
         
         # Sending user_responses to Flask backend
         try:
