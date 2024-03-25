@@ -157,10 +157,14 @@ import json
 # Load the model from the saved file
 model = load("models/xgboost_diabetes_model.joblib")
 
-def calculate_bmi(height_cm, weight_kg):
-    """Calculate and return the Body Mass Index."""
+def calculate_bmi(height_ft, height_in, weight_lbs):
+    """Calculate and return the Body Mass Index using height in feet and inches, and weight in pounds."""
+    total_height_in = height_ft * 12 + height_in  # Convert feet and inches to inches
+    height_cm = total_height_in * 2.54  # Convert inches to centimeters
+    weight_kg = weight_lbs * 0.453592  # Convert pounds to kilograms
     height_m = height_cm / 100
     return weight_kg / (height_m ** 2)
+
 
 def categorize_bmi(bmi):
     """Categorize the BMI according to predefined categories."""
@@ -173,6 +177,13 @@ def categorize_bmi(bmi):
     else:
         return 'Obesity'
     
+def clear_session():
+    """Clear the Streamlit session state and rerun the app."""
+    for key in list(st.session_state.keys()):
+        del st.session_state[key]
+    st.experimental_rerun()
+
+
 def display_prediction_result(prediction):
     """Display the prediction result in a user-friendly format."""
     risk_levels = {
@@ -182,7 +193,37 @@ def display_prediction_result(prediction):
     }
     risk_level = risk_levels[prediction]
     st.write(f"Based on your responses, your risk for diabetes is {risk_level}.")
-    # Display additional information based on the risk level
+    
+    if prediction == 0:
+        st.markdown('**Low Risk for Diabetes:**\n'
+                    'Congratulations on maintaining habits that keep your diabetes risk low. '
+                    'Remember to:\n'
+                    '- Continue engaging in regular physical activity.\n'
+                    '- Keep eating a balanced diet, rich in fruits and vegetables.\n'
+                    '- Maintain a healthy weight range.\n'
+                    '- Avoid smoking.\n'
+                    '- Limit your intake of sugary drinks.\n'
+                    '- Maintain regular checkups with a healthcare professional.')
+    elif prediction == 1:
+        st.subheader('Based on your responses, you might be at a moderate risk for prediabetes.')
+        st.markdown('**Moderate Risk for Pre-Diabetes:**\n'
+                    'It’s important to take steps now to prevent diabetes. Consider the following:\n'
+                    '- Discuss your results with a healthcare professional for personalized advice.\n'
+                    '- Increase your physical activity to at least 150 minutes per week.\n'
+                    '- Incorporate more fruits, vegetables, and whole grains into your diet.\n'
+                    '- If you’re overweight, aim for a moderate weight loss of 5-7% of your body weight.\n'
+                    '- If you smoke, seek help to quit.\n'
+                    '- Limit alcohol consumption and avoid sugary drinks.')
+    elif prediction == 2:
+        st.subheader('Based on your responses, you are at a high risk for diabetes.')
+        st.markdown('**High Risk for Diabetes:**\n'
+                    'Your assessment indicates a high risk for diabetes. It’s important to take action now:\n'
+                    '- Schedule a visit with a healthcare provider to discuss your results and possible medical interventions.\n'
+                    '- Begin or increase physical activity levels, aiming for at least 150 minutes of moderate exercise each week.\n'
+                    '- Adopt a healthy, balanced diet with limited sugar and processed foods.\n'
+                    '- If overweight, focus on achieving a healthy weight through diet and exercise.\n'
+                    '- Avoid tobacco use and limit alcohol intake.\n'
+                    '- Monitor your health regularly and follow any medical advice provided by your healthcare professionals.')
 
 def main():
     """The main function of the Streamlit app."""
@@ -207,12 +248,16 @@ def main():
     for question in questions:
         user_responses[question['variable']] = st.radio(question['title'], question['options'])
 
-    height = st.number_input("Enter your height in centimeters:", 120, 250, key="Height")
-    weight = st.number_input("Enter your weight in kilograms:", 30, 200, key="Weight")
+    col1, col2 = st.columns(2)
+    with col1:
+        height_ft = st.number_input("Enter your height (feet):", min_value=4, max_value=7, key="Height_ft")
+    with col2:
+        height_in = st.number_input("Enter your height (inches):", min_value=0, max_value=11, key="Height_in")
+    
+    weight_lbs = st.number_input("Enter your weight (pounds):", min_value=50, max_value=400, key="Weight_lbs")
 
-    # Check for valid height and weight inputs before calculating BMI
-    if height and weight:
-        bmi_value = calculate_bmi(height, weight)
+    if height_ft and height_in and weight_lbs:
+        bmi_value = calculate_bmi(height_ft, height_in, weight_lbs)
         user_responses['BMI'] = categorize_bmi(bmi_value)
 
     # Submit button for prediction and sending data to backend
@@ -235,11 +280,8 @@ def main():
         except requests.exceptions.RequestException as e:
             st.error(f"Request failed: {e}")
 
-def clear_session():
-    """Clear the Streamlit session state."""
-    for key in list(st.session_state.keys()):
-        del st.session_state[key]
-    st.experimental_rerun()
+    if st.button('Clear & Restart'):
+        clear_session()
 
 if __name__ == "__main__":
     main()
