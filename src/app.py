@@ -187,7 +187,7 @@ def display_prediction_result(prediction):
 def main():
     """The main function of the Streamlit app."""
     st.title('Healthcast Diabetes Risk Assessment')
-    st.image('assets/images/Orca logo.png', use_column_width=True)
+    st.image('static/images/Orca logo.png', use_column_width=True)
     st.markdown('1 in 3 US adults has prediabetes and is at high risk for type 2 diabetes. How about you?')
 
     # Questions and form to collect user input
