@@ -1,0 +1,14 @@
+imblearn
+streamlit
+pandas
+requests
+scikit-learn
+joblib
+
+# itertools commented out because unnecessary to load because built in to Python (Eugene)
+# itertools
+
+numpy
+
+#added flask_cors==3.0.10 (Eugene)
+flask_cors==3.0.10
