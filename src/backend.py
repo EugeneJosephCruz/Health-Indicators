@@ -79,3 +79,4 @@ def submit_responses():
 if __name__ == "__main__":
     create_table() # Ensure the table is created on startup
     app.run(debug=True, port=5000)
+
