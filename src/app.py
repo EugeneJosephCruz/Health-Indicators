@@ -82,11 +82,51 @@ def main():
         {"title": "Do you have any difficulty walking or climbing stairs?", "options": ["Yes", "No"], "variable": "DiffWalk"},
     ]
 
+    age_mapping = {
+        "18-24": 1,
+        "25-29": 2,
+        "30-34": 3,
+        "35-39": 4,
+        "40-44": 5,
+        "45-49": 6,
+        "50-54": 7,
+        "55-59": 8,
+        "60-64": 9,
+        "65-69": 10,
+        "70-74": 11,
+        "75-79": 12,
+        "80 or older": 13
+    }
+
+    
+
+    # 'Male' is mapped to 1 and 'Female' to 0 based on model training
+    sex_mapping = {
+        "Male": 1,
+        "Female": 0
+    }
+
+    binary_questions = ["HighBP", "HighChol", "Smoker", "Stroke", "HeartDiseaseorAttack", "PhysActivity", "DiffWalk", "Sex"]
+
     user_responses = {}
     for question in questions:
         response = st.radio(question['title'], question['options'], key=question['variable'])
-        user_responses[question['variable']] = response
-        print(f"Response for {question['variable']}: {response}")
+        if question['variable'] in binary_questions:
+            if question['variable'] == 'Sex':
+                user_responses[question['variable']] = sex_mapping[response]
+            else:
+                user_responses[question['variable']] = 1 if response == 'Yes' else 0
+        elif question['variable'] == 'Age':
+            user_responses[question['variable']] = age_mapping[response]
+        else:
+            user_responses[question['variable']] = response
+
+
+    # user_responses = {}
+    # for question in questions:
+    #     response = st.radio(question['title'], question['options'], key=question['variable'])
+    #     user_responses[question['variable']] = response
+    #     print(f"Response for {question['variable']}: {response}")
 
     col1, col2 = st.columns(2)
     with col1:
@@ -170,45 +210,7 @@ if __name__ == "__main__":
 #         {"title": "Do you have any difficulty walking or climbing stairs?", "options": ["Yes", "No"], "variable": "DiffWalk"},
 #     ]
 
-#     age_mapping = {
-#         "18-24": 1,
-#         "25-29": 2,
-#         "30-34": 3,
-#         "35-39": 4,
-#         "40-44": 5,
-#         "45-49": 6,
-#         "50-54": 7,
-#         "55-59": 8,
-#         "60-64": 9,
-#         "65-69": 10,
-#         "70-74": 11,
-#         "75-79": 12,
-#         "80 or older": 13
-#     }
-
     
-
-#     # 'Male' is mapped to 1 and 'Female' to 0 based on model training
-#     sex_mapping = {
-#         "Male": 1,
-#         "Female": 0
-#     }
-
-#     binary_questions = ["HighBP", "HighChol", "Smoker", "Stroke", "HeartDiseaseorAttack", "PhysActivity", "DiffWalk", "Sex"]
-
-#     user_responses = {}
-#     for question in questions:
-#         response = st.radio(question['title'], question['options'], key=question['variable'])
-#         if question['variable'] in binary_questions:
-#             if question['variable'] == 'Sex':
-#                 user_responses[question['variable']] = sex_mapping[response]
-#             else:
-#                 user_responses[question['variable']] = 1 if response == 'Yes' else 0
-#         elif question['variable'] == 'Age':
-#             user_responses[question['variable']] = age_mapping[response]
-#         else:
-#             user_responses[question['variable']] = response
-
 
 #     col1, col2 = st.columns(2)
 #     with col1:
