@@ -81,7 +81,7 @@ def main():
         {"title": "Have you ever had a stroke?", "options": ["Yes", "No"], "variable": "Stroke"},
         {"title": "In the past 30 days, excluding your job, did you participate in any physical activities or exercises such as running, calisthenics, golf, gardening, or walking for exercise?", "options": ["Yes", "No"], "variable": "PhysActivity"},
         {"title": "Have you ever had a heart attack or have coronary heart disease?", "options": ["Yes", "No"], "variable": "HeartDiseaseorAttack"},
-        {"title": "What is your gender?", "options": ["Male", "Female"], "variable": "Sex"},
+        {"title": "What is your Sex?", "options": ["Male", "Female"], "variable": "Sex"},
         {"title": "Do you have any difficulty walking or climbing stairs?", "options": ["Yes", "No"], "variable": "DiffWalk"},
     ]
 
