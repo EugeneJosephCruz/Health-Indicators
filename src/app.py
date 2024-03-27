@@ -1,4 +1,5 @@
 import streamlit as st
+
 import requests
 from joblib import load
 import json
@@ -25,14 +26,16 @@ def clear_session():
 
 def display_prediction_result(prediction):
     """Display the prediction result in a user-friendly format."""
+
     risk_levels = {
         0: 'Low',
         1: 'Moderate',
         2: 'High'
     }
     risk_level = risk_levels[prediction]
+
     st.write(f"Based on your responses, your risk for diabetes is {risk_level}.")
-    
+
     if prediction == 0:
         st.markdown('**Low Risk for Diabetes:**\n'
                     'Congratulations on maintaining habits that keep your diabetes risk low. '
@@ -65,6 +68,7 @@ def display_prediction_result(prediction):
                     '- Monitor your health regularly and follow any medical advice provided by your healthcare professionals.')
 
 def main():
+
     st.title('Healthcast Diabetes Risk Assessment')
     st.image('static/images/Orca logo.png', use_column_width=True)
     st.markdown('1 in 3 US adults has prediabetes and is at high risk for type 2 diabetes. How about you?')
