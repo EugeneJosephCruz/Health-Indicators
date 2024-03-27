@@ -1,0 +1,10 @@
+imblearn
+streamlit
+pandas
+requests
+scikit-learn
+joblib
+numpy
+xgboost
+flask_cors==3.0.10
+datetime
