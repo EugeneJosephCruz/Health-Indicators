@@ -121,13 +121,6 @@ def main():
         else:
             user_responses[question['variable']] = response
 
-
-    # user_responses = {}
-    # for question in questions:
-    #     response = st.radio(question['title'], question['options'], key=question['variable'])
-    #     user_responses[question['variable']] = response
-    #     print(f"Response for {question['variable']}: {response}")
-
     col1, col2 = st.columns(2)
     with col1:
         height_ft = st.number_input("Enter your height (feet):", min_value=4, max_value=7, key="Height_ft")
@@ -162,95 +155,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-# import streamlit as st
-# import pandas as pd
-# import requests
-# from joblib import load
-# import json
-# import joblib
-
-# # Load the model from the saved file
-# model = load("models/xgboost_diabetes_model.joblib")
-
-
-# def calculate_bmi(height_ft, height_in, weight_lbs):
-#     """Calculate and return the Body Mass Index using height in feet and inches, and weight in pounds."""
-#     total_height_in = height_ft * 12 + height_in  # Convert feet and inches to inches
-#     height_cm = total_height_in * 2.54  # Convert inches to centimeters
-#     weight_kg = weight_lbs * 0.453592  # Convert pounds to kilograms
-#     height_m = height_cm / 100
-#     return weight_kg / (height_m ** 2)
-
-# def clear_session():
-#     """Clear the Streamlit session state and rerun the app."""
-#     for key in list(st.session_state.keys()):
-#         del st.session_state[key]
-#     st.experimental_rerun()
-
-
-
-
-# def main():
-#     """The main function of the Streamlit app."""
-#     st.title('Healthcast Diabetes Risk Assessment')
-#     st.image('static/images/Orca logo.png', use_column_width=True)
-#     st.markdown('1 in 3 US adults has prediabetes and is at high risk for type 2 diabetes. How about you?')
-
-#     # Questions and form to collect user input
-#     questions = [
-#         {"title": "Have you ever been diagnosed with high blood pressure?", "options": ["Yes", "No"], "variable": "HighBP"},
-#         {"title": "Is your cholesterol level higher than it should be?", "options": ["Yes", "No"], "variable": "HighChol"},
-#         {"title": "What is your age group?", "options": ["18-24", "25-29", "30-34", "35-39", "40-44", "45-49", "50-54", "55-59", "60-64", "65-69", "70-74", "75-79", "80 or older"], "variable": "Age"},
-#         {"title": "Have you smoked at least 100 cigarettes in your entire life? [Note: 5 packs = 100 cigarettes]", "options": ["Yes", "No"], "variable": "Smoker"},
-#         {"title": "Have you ever had a stroke?", "options": ["Yes", "No"], "variable": "Stroke"},
-#         {"title": "In the past 30 days, excluding your job, did you participate in any physical activities or exercises such as running, calisthenics, golf, gardening, or walking for exercise?", "options": ["Yes", "No"], "variable": "PhysActivity"},
-#         {"title": "Have you ever had a heart attack or have coronary heart disease?", "options": ["Yes", "No"], "variable": "HeartDiseaseorAttack"},
-#         {"title": "What is your gender?", "options": ["Male", "Female"], "variable": "Sex"},
-#         {"title": "Do you have any difficulty walking or climbing stairs?", "options": ["Yes", "No"], "variable": "DiffWalk"},
-#     ]
-
-    
-
-#     col1, col2 = st.columns(2)
-#     with col1:
-#         height_ft = st.number_input("Enter your height (feet):", min_value=4, max_value=7, value=5, key="Height_ft")  # Set a default value
-#     with col2:
-#         height_in = st.number_input("Enter your height (inches):", min_value=0, max_value=11, value=0, key="Height_in")  # Set a default value
-
-#     weight_lbs = st.number_input("Enter your weight (pounds):", min_value=50, max_value=400, value=150, key="Weight_lbs")  # Set a default value
-
-
-#     print("Height (ft):", height_ft, "Height (in):", height_in, "Weight (lbs):", weight_lbs)
-
-#         # Only check height_ft and weight_lbs since height_in can be 0
-#     if height_ft and weight_lbs:
-#         bmi_value = calculate_bmi(height_ft, height_in, weight_lbs)
-#         user_responses['BMI'] = int(bmi_value)
-#         print("BMI calculated:", user_responses['BMI'])
-#     else:
-#         print("BMI calculation condition not met.")
-
-
-
-#     # Submit button for prediction and sending data to backend
-#     if st.button('Submit'):
-#         try:
-#             response = requests.post("http://localhost:5000/submit", json=user_responses)
-#             if response.status_code == 200:
-#                 response_data = response.json()
-#                 prediction = response_data['model_response']
-#                 display_prediction_result(prediction)
-#                 st.success(f"Responses submitted successfully! User ID: {response_data.get('user_id')}")
-#             else:
-#                 st.error("Failed to submit responses.")
-#                 print(f'User Responses that failed to submit is this: {user_responses} ')
-#         except requests.exceptions.RequestException as e:
-#             st.error(f"Request failed: {e}")
-
-
-#     if st.button('Clear & Restart'):
-#         clear_session()
-
-# if __name__ == "__main__":
-#     main()
