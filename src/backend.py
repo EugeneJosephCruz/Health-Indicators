@@ -9,7 +9,7 @@ import json
 from sklearn.preprocessing import StandardScaler
 
 # Load the model from the saved file
-model = load("xgboost_diabetes_model.joblib")
+model = load("models/xgboost_diabetes_model.joblib")
 
 # Load the fitted StandardScaler
 scaler = joblib.load('models/fitted_scaler.joblib')

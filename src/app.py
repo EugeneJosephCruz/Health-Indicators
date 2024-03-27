@@ -4,7 +4,7 @@ from joblib import load
 import json
 
 # Load the model from the saved file
-model = load("xgboost_daiabetes_model.joblib")
+model = load("models/xgboost_daiabetes_model.joblib")
 
 def calculate_bmi(height_ft, height_in, weight_lbs):
     print("Calculating BMI...")
