@@ -77,12 +77,11 @@ def main():
     questions = [
         {"title": "Have you ever been diagnosed with high blood pressure?", "options": ["Yes", "No"], "variable": "HighBP"},
         {"title": "Is your cholesterol level higher than it should be?", "options": ["Yes", "No"], "variable": "HighChol"},
-        {"title": "What is your age group?", "options": ["18-24", "25-29", "30-34", "35-39", "40-44", "45-49", "50-54", "55-59", "60-64", "65-69", "70-74", "75-79", "80 or older"], "variable": "Age"},
         {"title": "Have you smoked at least 100 cigarettes in your entire life? [Note: 5 packs = 100 cigarettes]", "options": ["Yes", "No"], "variable": "Smoker"},
         {"title": "Have you ever had a stroke?", "options": ["Yes", "No"], "variable": "Stroke"},
         {"title": "In the past 30 days, excluding your job, did you participate in any physical activities or exercises such as running, calisthenics, golf, gardening, or walking for exercise?", "options": ["Yes", "No"], "variable": "PhysActivity"},
         {"title": "Have you ever had a heart attack or have coronary heart disease?", "options": ["Yes", "No"], "variable": "HeartDiseaseorAttack"},
-        {"title": "What is your gender?", "options": ["Male", "Female"], "variable": "Sex"},
+        {"title": "What is your sex assigned at birth?", "options": ["Male", "Female"], "variable": "Sex"},
         {"title": "Do you have any difficulty walking or climbing stairs?", "options": ["Yes", "No"], "variable": "DiffWalk"},
     ]
 
@@ -110,8 +109,21 @@ def main():
         "Female": 0
     }
 
-    binary_questions = ["HighBP", "HighChol", "Smoker", "Stroke", "HeartDiseaseorAttack", "PhysActivity", "DiffWalk", "Sex"]
+    # Handle the age group with a dropdown
+    age_group = st.selectbox(
+        "What is your age group?",
+        ["18-24", "25-29", "30-34", "35-39", "40-44", "45-49", "50-54", "55-59", "60-64", "65-69", "70-74", "75-79", "80 or older"],
+        key="Age"
+    )
 
+    col1, col2 = st.columns(2)
+    with col1:
+        height_ft = st.number_input("Enter your height (feet):", min_value=4, max_value=7, key="Height_ft")
+    with col2:
+        height_in = st.number_input("Enter your height (inches):", min_value=0, max_value=11, key="Height_in")
+    weight_lbs = st.number_input("Enter your weight (pounds):", min_value=50, max_value=400, key="Weight_lbs")
+
+    binary_questions = ["HighBP", "HighChol", "Smoker", "Stroke", "HeartDiseaseorAttack", "PhysActivity", "DiffWalk", "Sex"]
 
     user_responses = {}
     for question in questions:
@@ -121,39 +133,20 @@ def main():
                 user_responses[question['variable']] = sex_mapping[response]
             else:
                 user_responses[question['variable']] = 1 if response == 'Yes' else 0
-        elif question['variable'] == 'Age':
-            user_responses[question['variable']] = age_mapping[response]
         else:
             user_responses[question['variable']] = response
+    user_responses['Age'] = age_mapping[age_group]
 
-    col1, col2 = st.columns(2)
-    with col1:
-        height_ft = st.number_input("Enter your height (feet):", min_value=4, max_value=7, key="Height_ft")
-    with col2:
-        height_in = st.number_input("Enter your height (inches):", min_value=0, max_value=11, key="Height_in")
-    weight_lbs = st.number_input("Enter your weight (pounds):", min_value=50, max_value=400, key="Weight_lbs")
+    
 
     if height_ft and weight_lbs:
         bmi_value = calculate_bmi(height_ft, height_in, weight_lbs)
         user_responses['BMI'] = int(bmi_value)
 
+    
+
     if st.button('Submit'):
         try:
-            # Prepare user responses for prediction
-            user_responses = {
-            'HighBP': 1 if st.session_state['HighBP'] == 'Yes' else 0,
-            'HighChol': 1 if st.session_state['HighChol'] == 'Yes' else 0,
-            'Smoker': 1 if st.session_state['Smoker'] == 'Yes' else 0,
-            'Stroke': 1 if st.session_state['Stroke'] == 'Yes' else 0,
-            'HeartDiseaseorAttack': 1 if st.session_state['HeartDiseaseorAttack'] == 'Yes' else 0,
-            'PhysActivity': 1 if st.session_state['PhysActivity'] == 'Yes' else 0,
-            'DiffWalk': 1 if st.session_state['DiffWalk'] == 'Yes' else 0,
-            'Sex': 1 if st.session_state['Sex'] == 'Male' else 0,
-            'Age': age_mapping[st.session_state['Age']],  # Assuming you have a mapping for age groups to numerical values
-            'BMI': int(bmi_value)  # Assuming you calculate the BMI beforehand
-            }
-
-
             # Call the prediction function
             prediction, user_id = make_prediction(user_responses)
             display_prediction_result(prediction)

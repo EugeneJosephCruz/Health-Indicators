@@ -4,8 +4,8 @@ import pandas as pd
 from datetime import datetime
 
 # Load the model and scaler
-model = joblib.load("models/xgboost_diabetes_model.joblib")
-scaler = joblib.load('models/fitted_scaler.joblib')
+model = joblib.load("models/xgboost_diabetes_model_smote.joblib")
+scaler = joblib.load('models/fitted_scaler_smote.joblib')
 
 db_file = "diabetes_risk_assessments.db"
 
@@ -59,9 +59,11 @@ def make_prediction(user_responses):
     df_scaled = scaler.transform(df)
     print(f'df_scaled: {df_scaled}')
     prediction = model.predict(df_scaled)[0]
+    print(f'prediction: {prediction}')
 
     # Convert numpy.int64 to native Python int for JSON serialization
     prediction = int(prediction)
+    
 
     # Add 'timestamp' and 'risk_level' for database insertion
     user_responses_for_db = user_responses.copy()
