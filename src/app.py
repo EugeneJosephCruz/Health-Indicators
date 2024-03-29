@@ -150,7 +150,7 @@ def main():
             # Call the prediction function
             prediction, user_id = make_prediction(user_responses)
             display_prediction_result(prediction)
-            st.success(f"Responses submitted successfully! User ID: {user_id}")
+            #st.success(f"Responses submitted successfully! User ID: {user_id}")
         except Exception as e:
             st.error(f"An error occurred: {e}")
 
