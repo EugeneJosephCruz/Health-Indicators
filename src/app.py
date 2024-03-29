@@ -1,9 +1,5 @@
 import streamlit as st
 from backend import make_prediction, create_table
-# import streamlit as st
-# import requests
-# from joblib import load
-# import json
 
 # Ensure the database table is created
 create_table()
@@ -19,10 +15,98 @@ def calculate_bmi(height_ft, height_in, weight_lbs):
     return bmi
 
 def clear_session():
-    print("Clearing session...")
-    for key in list(st.session_state.keys()):
-        del st.session_state[key]
-    st.experimental_rerun()
+    # Reset the session state
+    st.session_state['submitted'] = False
+    st.session_state['prediction'] = None
+
+def display_survey():
+    # Collect and display the survey questions
+    # Logic for collecting user responses remains the same
+    # Questions and form to collect user input
+    questions = [
+        {"title": "Have you ever been diagnosed with high blood pressure?", "options": ["Yes", "No"], "variable": "HighBP"},
+        {"title": "Is your cholesterol level higher than it should be?", "options": ["Yes", "No"], "variable": "HighChol"},
+        {"title": "Have you smoked at least 100 cigarettes in your entire life? [Note: 5 packs = 100 cigarettes]", "options": ["Yes", "No"], "variable": "Smoker"},
+        {"title": "Have you ever had a stroke?", "options": ["Yes", "No"], "variable": "Stroke"},
+        {"title": "In the past 30 days, excluding your job, did you participate in any physical activities or exercises such as running, calisthenics, golf, gardening, or walking for exercise?", "options": ["Yes", "No"], "variable": "PhysActivity"},
+        {"title": "Have you ever had a heart attack or have coronary heart disease?", "options": ["Yes", "No"], "variable": "HeartDiseaseorAttack"},
+        {"title": "What is your sex assigned at birth?", "options": ["Male", "Female"], "variable": "Sex"},
+        {"title": "Do you have any difficulty walking or climbing stairs?", "options": ["Yes", "No"], "variable": "DiffWalk"},
+    ]
+
+    age_mapping = {
+        "18-24": 1,
+        "25-29": 2,
+        "30-34": 3,
+        "35-39": 4,
+        "40-44": 5,
+        "45-49": 6,
+        "50-54": 7,
+        "55-59": 8,
+        "60-64": 9,
+        "65-69": 10,
+        "70-74": 11,
+        "75-79": 12,
+        "80 or older": 13
+    }
+
+    # 'Male' is mapped to 1 and 'Female' to 0 based on model training
+    sex_mapping = {
+        "Male": 1,
+        "Female": 0
+    }
+
+    # Handle the age group with a dropdown
+    age_group = st.selectbox(
+        "What is your age group?",
+        ["18-24", "25-29", "30-34", "35-39", "40-44", "45-49", "50-54", "55-59", "60-64", "65-69", "70-74", "75-79", "80 or older"],
+        key="Age"
+    )
+
+    col1, col2 = st.columns(2)
+    with col1:
+        height_ft = st.number_input("Enter your height (feet):", min_value=4, max_value=7, key="Height_ft")
+    with col2:
+        height_in = st.number_input("Enter your height (inches):", min_value=0, max_value=11, key="Height_in")
+    weight_lbs = st.number_input("Enter your weight (pounds):", min_value=50, max_value=400, key="Weight_lbs")
+
+    binary_questions = ["HighBP", "HighChol", "Smoker", "Stroke", "HeartDiseaseorAttack", "PhysActivity", "DiffWalk", "Sex"]
+
+    user_responses = {}
+    for question in questions:
+        response = st.radio(question['title'], question['options'], key=question['variable'])
+        if question['variable'] in binary_questions:
+            if question['variable'] == 'Sex':
+                user_responses[question['variable']] = sex_mapping[response]
+            else:
+                user_responses[question['variable']] = 1 if response == 'Yes' else 0
+        else:
+            user_responses[question['variable']] = response
+    user_responses['Age'] = age_mapping[age_group]
+
+    
+
+    if height_ft and weight_lbs:
+        bmi_value = calculate_bmi(height_ft, height_in, weight_lbs)
+        user_responses['BMI'] = int(bmi_value)
+
+
+    # When 'Submit' button is clicked, make a prediction and set session state variables
+    if st.button('Submit'):
+        try:
+            prediction, user_id = make_prediction(user_responses)  # Ensure you have collected user_responses before this line
+            st.session_state['submitted'] = True
+            st.session_state['prediction'] = prediction
+        except Exception as e:
+            st.error(f"An error occurred: {e}")
+
+def display_result():
+    # Display the prediction result
+    display_prediction_result(st.session_state['prediction'])
+
+    # Clear & Restart button
+    if st.button('Clear & Restart'):
+        clear_session()
 
 def display_prediction_result(prediction):
     """Display the prediction result in a user-friendly format."""
@@ -67,107 +151,50 @@ def display_prediction_result(prediction):
                     '- Avoid tobacco use and limit alcohol intake.\n'
                     '- Monitor your health regularly and follow any medical advice provided by your healthcare professionals.')
 
-
 def main():
-    st.title('Healthcast Diabetes Risk Assessment')
-    st.image('static/images/Orca logo.png', use_column_width=True)
-    st.markdown('1 in 3 US adults has prediabetes and is at high risk for type 2 diabetes. How about you?')
+    #st.title("Healthcast Diabetic Risk Assessment")
 
-    # Questions and form to collect user input
-    questions = [
-        {"title": "Have you ever been diagnosed with high blood pressure?", "options": ["Yes", "No"], "variable": "HighBP"},
-        {"title": "Is your cholesterol level higher than it should be?", "options": ["Yes", "No"], "variable": "HighChol"},
-        {"title": "Have you smoked at least 100 cigarettes in your entire life? [Note: 5 packs = 100 cigarettes]", "options": ["Yes", "No"], "variable": "Smoker"},
-        {"title": "Have you ever had a stroke?", "options": ["Yes", "No"], "variable": "Stroke"},
-        {"title": "In the past 30 days, excluding your job, did you participate in any physical activities or exercises such as running, calisthenics, golf, gardening, or walking for exercise?", "options": ["Yes", "No"], "variable": "PhysActivity"},
-        {"title": "Have you ever had a heart attack or have coronary heart disease?", "options": ["Yes", "No"], "variable": "HeartDiseaseorAttack"},
-        {"title": "What is your sex assigned at birth?", "options": ["Male", "Female"], "variable": "Sex"},
-        {"title": "Do you have any difficulty walking or climbing stairs?", "options": ["Yes", "No"], "variable": "DiffWalk"},
-    ]
-
-    age_mapping = {
-        "18-24": 1,
-        "25-29": 2,
-        "30-34": 3,
-        "35-39": 4,
-        "40-44": 5,
-        "45-49": 6,
-        "50-54": 7,
-        "55-59": 8,
-        "60-64": 9,
-        "65-69": 10,
-        "70-74": 11,
-        "75-79": 12,
-        "80 or older": 13
+    st.markdown("""
+    <style>
+    .big-font {
+        font-size:40px !important;  /* Adjust the size as necessary */
+        font-weight: bold !important;
+        text-align: center !important;
     }
+    </style>
+    """, unsafe_allow_html=True)
 
-    
+    st.markdown('<p class="big-font">Healthcast Diabetic Risk Assessment</p>', unsafe_allow_html=True)
 
-    # 'Male' is mapped to 1 and 'Female' to 0 based on model training
-    sex_mapping = {
-        "Male": 1,
-        "Female": 0
-    }
 
-    # Handle the age group with a dropdown
-    age_group = st.selectbox(
-        "What is your age group?",
-        ["18-24", "25-29", "30-34", "35-39", "40-44", "45-49", "50-54", "55-59", "60-64", "65-69", "70-74", "75-79", "80 or older"],
-        key="Age"
-    )
-
-    col1, col2 = st.columns(2)
-    with col1:
-        height_ft = st.number_input("Enter your height (feet):", min_value=4, max_value=7, key="Height_ft")
+    #Create two columns
+    col1, col2, col3 = st.columns([1, 1,1])  # Adjust the ratio as needed for your layout    
+    # Use the second column to display the image
     with col2:
-        height_in = st.number_input("Enter your height (inches):", min_value=0, max_value=11, key="Height_in")
-    weight_lbs = st.number_input("Enter your weight (pounds):", min_value=50, max_value=400, key="Weight_lbs")
+        st.image('static/images/Orca logo.png', width=200)  # Adjust the width as needed
 
-    binary_questions = ["HighBP", "HighChol", "Smoker", "Stroke", "HeartDiseaseorAttack", "PhysActivity", "DiffWalk", "Sex"]
+    # Initialize session state variables if not already done
+    if 'submitted' not in st.session_state:
+        st.session_state['submitted'] = False
+    if 'prediction' not in st.session_state:
+        st.session_state['prediction'] = None
 
-    user_responses = {}
-    for question in questions:
-        response = st.radio(question['title'], question['options'], key=question['variable'])
-        if question['variable'] in binary_questions:
-            if question['variable'] == 'Sex':
-                user_responses[question['variable']] = sex_mapping[response]
-            else:
-                user_responses[question['variable']] = 1 if response == 'Yes' else 0
-        else:
-            user_responses[question['variable']] = response
-    user_responses['Age'] = age_mapping[age_group]
-
-    
-
-    if height_ft and weight_lbs:
-        bmi_value = calculate_bmi(height_ft, height_in, weight_lbs)
-        user_responses['BMI'] = int(bmi_value)
-
-    
-
-    if st.button('Submit'):
-        try:
-            # Call the prediction function
-            prediction, user_id = make_prediction(user_responses)
-            display_prediction_result(prediction)
-            st.success(f"Responses submitted successfully! User ID: {user_id}")
-        except Exception as e:
-            st.error(f"An error occurred: {e}")
-
-    if st.button('Clear & Restart'):
-        clear_session()
+    # Based on the 'submitted' state, either display the survey or the result
+    if not st.session_state['submitted']:
+        display_survey()
+    else:
+        display_result()
 
 if __name__ == "__main__":
     main()
 
 
-# import streamlit as st
-# import requests
-# from joblib import load
-# import json
 
-# # Load the model from the saved file
-# model = load("models/xgboost_diabetes_model.joblib")
+# import streamlit as st
+# from backend import make_prediction, create_table
+
+# # Ensure the database table is created
+# create_table()
 
 # def calculate_bmi(height_ft, height_in, weight_lbs):
 #     print("Calculating BMI...")
@@ -184,7 +211,6 @@ if __name__ == "__main__":
 #     for key in list(st.session_state.keys()):
 #         del st.session_state[key]
 #     st.experimental_rerun()
-
 
 # def display_prediction_result(prediction):
 #     """Display the prediction result in a user-friendly format."""
@@ -229,95 +255,94 @@ if __name__ == "__main__":
 #                     '- Avoid tobacco use and limit alcohol intake.\n'
 #                     '- Monitor your health regularly and follow any medical advice provided by your healthcare professionals.')
 
-# def main():
 
+# def main():
 #     st.title('Healthcast Diabetes Risk Assessment')
 #     st.image('static/images/Orca logo.png', use_column_width=True)
 #     st.markdown('1 in 3 US adults has prediabetes and is at high risk for type 2 diabetes. How about you?')
 
-#     # Questions and form to collect user input
-#     questions = [
-#         {"title": "Have you ever been diagnosed with high blood pressure?", "options": ["Yes", "No"], "variable": "HighBP"},
-#         {"title": "Is your cholesterol level higher than it should be?", "options": ["Yes", "No"], "variable": "HighChol"},
-#         {"title": "What is your age group?", "options": ["18-24", "25-29", "30-34", "35-39", "40-44", "45-49", "50-54", "55-59", "60-64", "65-69", "70-74", "75-79", "80 or older"], "variable": "Age"},
-#         {"title": "Have you smoked at least 100 cigarettes in your entire life? [Note: 5 packs = 100 cigarettes]", "options": ["Yes", "No"], "variable": "Smoker"},
-#         {"title": "Have you ever had a stroke?", "options": ["Yes", "No"], "variable": "Stroke"},
-#         {"title": "In the past 30 days, excluding your job, did you participate in any physical activities or exercises such as running, calisthenics, golf, gardening, or walking for exercise?", "options": ["Yes", "No"], "variable": "PhysActivity"},
-#         {"title": "Have you ever had a heart attack or have coronary heart disease?", "options": ["Yes", "No"], "variable": "HeartDiseaseorAttack"},
-#         {"title": "What is your gender?", "options": ["Male", "Female"], "variable": "Sex"},
-#         {"title": "Do you have any difficulty walking or climbing stairs?", "options": ["Yes", "No"], "variable": "DiffWalk"},
-#     ]
+    # # Questions and form to collect user input
+    # questions = [
+    #     {"title": "Have you ever been diagnosed with high blood pressure?", "options": ["Yes", "No"], "variable": "HighBP"},
+    #     {"title": "Is your cholesterol level higher than it should be?", "options": ["Yes", "No"], "variable": "HighChol"},
+    #     {"title": "Have you smoked at least 100 cigarettes in your entire life? [Note: 5 packs = 100 cigarettes]", "options": ["Yes", "No"], "variable": "Smoker"},
+    #     {"title": "Have you ever had a stroke?", "options": ["Yes", "No"], "variable": "Stroke"},
+    #     {"title": "In the past 30 days, excluding your job, did you participate in any physical activities or exercises such as running, calisthenics, golf, gardening, or walking for exercise?", "options": ["Yes", "No"], "variable": "PhysActivity"},
+    #     {"title": "Have you ever had a heart attack or have coronary heart disease?", "options": ["Yes", "No"], "variable": "HeartDiseaseorAttack"},
+    #     {"title": "What is your sex assigned at birth?", "options": ["Male", "Female"], "variable": "Sex"},
+    #     {"title": "Do you have any difficulty walking or climbing stairs?", "options": ["Yes", "No"], "variable": "DiffWalk"},
+    # ]
 
-#     age_mapping = {
-#         "18-24": 1,
-#         "25-29": 2,
-#         "30-34": 3,
-#         "35-39": 4,
-#         "40-44": 5,
-#         "45-49": 6,
-#         "50-54": 7,
-#         "55-59": 8,
-#         "60-64": 9,
-#         "65-69": 10,
-#         "70-74": 11,
-#         "75-79": 12,
-#         "80 or older": 13
-#     }
+    # age_mapping = {
+    #     "18-24": 1,
+    #     "25-29": 2,
+    #     "30-34": 3,
+    #     "35-39": 4,
+    #     "40-44": 5,
+    #     "45-49": 6,
+    #     "50-54": 7,
+    #     "55-59": 8,
+    #     "60-64": 9,
+    #     "65-69": 10,
+    #     "70-74": 11,
+    #     "75-79": 12,
+    #     "80 or older": 13
+    # }
+
+    # # 'Male' is mapped to 1 and 'Female' to 0 based on model training
+    # sex_mapping = {
+    #     "Male": 1,
+    #     "Female": 0
+    # }
+
+    # # Handle the age group with a dropdown
+    # age_group = st.selectbox(
+    #     "What is your age group?",
+    #     ["18-24", "25-29", "30-34", "35-39", "40-44", "45-49", "50-54", "55-59", "60-64", "65-69", "70-74", "75-79", "80 or older"],
+    #     key="Age"
+    # )
+
+    # col1, col2 = st.columns(2)
+    # with col1:
+    #     height_ft = st.number_input("Enter your height (feet):", min_value=4, max_value=7, key="Height_ft")
+    # with col2:
+    #     height_in = st.number_input("Enter your height (inches):", min_value=0, max_value=11, key="Height_in")
+    # weight_lbs = st.number_input("Enter your weight (pounds):", min_value=50, max_value=400, key="Weight_lbs")
+
+    # binary_questions = ["HighBP", "HighChol", "Smoker", "Stroke", "HeartDiseaseorAttack", "PhysActivity", "DiffWalk", "Sex"]
+
+    # user_responses = {}
+    # for question in questions:
+    #     response = st.radio(question['title'], question['options'], key=question['variable'])
+    #     if question['variable'] in binary_questions:
+    #         if question['variable'] == 'Sex':
+    #             user_responses[question['variable']] = sex_mapping[response]
+    #         else:
+    #             user_responses[question['variable']] = 1 if response == 'Yes' else 0
+    #     else:
+    #         user_responses[question['variable']] = response
+    # user_responses['Age'] = age_mapping[age_group]
 
     
 
-#     # 'Male' is mapped to 1 and 'Female' to 0 based on model training
-#     sex_mapping = {
-#         "Male": 1,
-#         "Female": 0
-#     }
+    # if height_ft and weight_lbs:
+    #     bmi_value = calculate_bmi(height_ft, height_in, weight_lbs)
+    #     user_responses['BMI'] = int(bmi_value)
 
-#     binary_questions = ["HighBP", "HighChol", "Smoker", "Stroke", "HeartDiseaseorAttack", "PhysActivity", "DiffWalk", "Sex"]
-
-#     user_responses = {}
-#     for question in questions:
-#         response = st.radio(question['title'], question['options'], key=question['variable'])
-#         if question['variable'] in binary_questions:
-#             if question['variable'] == 'Sex':
-#                 user_responses[question['variable']] = sex_mapping[response]
-#             else:
-#                 user_responses[question['variable']] = 1 if response == 'Yes' else 0
-#         elif question['variable'] == 'Age':
-#             user_responses[question['variable']] = age_mapping[response]
-#         else:
-#             user_responses[question['variable']] = response
-
-#     col1, col2 = st.columns(2)
-#     with col1:
-#         height_ft = st.number_input("Enter your height (feet):", min_value=4, max_value=7, key="Height_ft")
-#     with col2:
-#         height_in = st.number_input("Enter your height (inches):", min_value=0, max_value=11, key="Height_in")
-#     weight_lbs = st.number_input("Enter your weight (pounds):", min_value=50, max_value=400, key="Weight_lbs")
-
-#     # Check if height and weight inputs are provided before calculating BMI
-#     if height_ft and weight_lbs:
-#         bmi_value = calculate_bmi(height_ft, height_in, weight_lbs)
-#         user_responses['BMI'] = int(bmi_value)
+    
 
 #     if st.button('Submit'):
-#         print("Submitting responses...")
 #         try:
-#             # Convert responses to JSON string for the POST request
-#             json_data = json.dumps(user_responses)
-#             print(f"Sending JSON data to backend: {json_data}")
-#             response = requests.post("http://localhost:5000/submit", json=json_data)
-#             if response.status_code == 200:
-#                 response_data = response.json()
-#                 prediction = response_data['model_response']
-#                 display_prediction_result(prediction)
-#                 st.success(f"Responses submitted successfully! User ID: {response_data.get('user_id')}")
-#             else:
-#                 st.error(f"Failed to submit responses. Status code: {response.status_code}")
-#         except requests.exceptions.RequestException as e:
-#             st.error(f"Request failed: {e}")
+#             # Call the prediction function
+#             prediction, user_id = make_prediction(user_responses)
+#             display_prediction_result(prediction)
+#             #st.success(f"Responses submitted successfully! User ID: {user_id}")
+#         except Exception as e:
+#             st.error(f"An error occurred: {e}")
 
 #     if st.button('Clear & Restart'):
 #         clear_session()
 
 # if __name__ == "__main__":
 #     main()
+
