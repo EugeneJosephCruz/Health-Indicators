@@ -69,8 +69,24 @@ def display_prediction_result(prediction):
 
 
 def main():
-    st.title('Healthcast Diabetes Risk Assessment')
-    st.image('static/images/Orca logo.png', use_column_width=True)
+    st.markdown("""
+    <style>
+    .big-font {
+        font-size:40px !important;  /* Adjust the size as necessary */
+        font-weight: bold !important;
+        text-align: center !important;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+
+    st.markdown('<p class="big-font">Healthcast Diabetic Risk Assessment</p>', unsafe_allow_html=True)
+
+
+    #Create two columns
+    col1, col2, col3 = st.columns([1, 1,1])  # Adjust the ratio as needed for your layout    
+    # Use the second column to display the image
+    with col2:
+        st.image('static/images/Orca logo.png', width=200)  # Adjust the width as needed
     st.markdown('1 in 3 US adults has prediabetes and is at high risk for type 2 diabetes. How about you?')
 
     # Questions and form to collect user input
