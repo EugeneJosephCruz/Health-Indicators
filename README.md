@@ -1,4 +1,4 @@
-# 4Geeks Data Science and Machine Learning Capstone-Project
+# 4Geeks Data Science and Machine Learning 
 
 **_Healthcast_ - Diabetes Risk Calculator Team Project**
 
